@@ -1,6 +1,7 @@
 print "hello world"
 x = "hello "
 y = "world"
+print "hello world\\n"
 print x+y
 print repr("lizhengxiang")
 print str("lizhengxiang")
