@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, session, url_for, redirect
 from flask.ext.bootstrap import Bootstrap
 #from flask.exe.wtf import From
 from flask.ext.wtf import Form
@@ -18,9 +18,9 @@ def index():
 	name = None
 	form = NameFrom()
 	if form.validate_on_submit():
-		name = form.name.data
-		form.name.data = ''
-	return render_template('index.html', form = form, name = name)
+		session['name'] = form.name.data
+		return redirect(url_for('index'))
+	return render_template('index.html', form = form, name = session.get('name'))
 @app.route('/user/<name>')
 def user(name):
 	return render_template('user.html', name=name)
