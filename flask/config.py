@@ -5,7 +5,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config:
 	SECREY_KEY = os.environ.get('SECREY_KEY') or 'hard to guess string'
 	#automatic submit database
-	SQLALCHEMY_COMMIT_ON_TERDOWN = True	
+	SQLALCHEMY_COMMIT_ON_TEARDOWN = True	
 	#config email 
 	FLASKY_MAIL_SUBJECT_PREFIX = '[Flasky]'
 	FLASKY_MAIL_SENDER = 'Flask Adimn<flasky@example.com>'
@@ -38,6 +38,7 @@ config = {
 	'development': DevelopmentConfig,
 	'testing': TestingCofig,
 	'production':ProductionConfig,
+
 	'default': DevelopmentConfig
 
 }

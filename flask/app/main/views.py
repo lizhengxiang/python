@@ -2,9 +2,9 @@ from datetime import datetime
 from flask import render_template, session, redirect, url_for
 
 from . import main
-from .forms import NmaeForm
-from .. import db
-from ..modles import User
+#from .forms import NmaeForm
+#from .. import db
+#from ..modles import User
 
 @main.route('/', methods = ['GET', 'POST'])
 def index():
