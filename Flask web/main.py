@@ -1,10 +1,67 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, session, url_for, redirect, flash
 from flask.ext.bootstrap import Bootstrap
-from flask.ext.login import UserMixin
-app = Flask(__name__)
+from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.wtf import Form
+from flask.ext.mail import Mail
+from flask.ext.script import Shell
+from wtforms import StringField, SubmitField
+from wtforms.validators import Required
+#from flask.exe.moment import Moment
+from datetime import datetime
+import multiprocessing
 from NameForm import NameForm
-#define base moldboard
-bootstrpa = Bootstrap(app)
+
+import os
+app = Flask(__name__)
+mail = Mail(app)
+bootstrap = Bootstrap(app)
+app.config['SECRET_KEY'] = 'hard to guess string'
+
+#Database configuration
+basedir = os.path.abspath(os.path.dirname(__file__))
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
+db = SQLAlchemy(app)
+
+def make_shell_context():
+	return dict(app = app, db = db, User = User, Role = Role)
+#define Role and User
+class Role(db.Model):
+	__tablename__ = 'roles'
+	id = db.Column(db.Integer, primary_key = True)
+	name = db.Column(db.String(64), unique = True)
+	users = db.relationship('User', backref = 'role')
+	def __repr__(self):
+		return '<Role %r> % self.name'
+#login class UserMixin
+from flask.ext.login import UserMixin
+class User(UserMixin, db.Model):
+	__tablename__ = 'users'
+	id = db.Column(db.Integer, primary_key = True)
+	username = db.Column(db.String(64), unique = True, index = True)
+	password_hash = db.Column(db.String(128))
+	role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+	@property
+	def password(self):
+		return AttributeError('password is not a readable attribute')
+	@password.setter
+	def password(self, password):
+		self.password_hash = generate_password_hash(password)
+	def verify_password(self, password):
+		return check_password_hash(self.password_hash, password)
+
+	def __repr__(self):
+		return '<User %r> % self.username'
+
+class NameFrom(Form):
+	name = StringField('what you name?', validators = [Required()])
+	submit = SubmitField('Submit')
+app.config['MAIL_SEVER'] = 'smtp.googlemail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -38,10 +95,9 @@ def page_not_found(e):
 def internal_serve_error(e):
 	return render_template('500.html'), 500
 
-#define login 
+#login modeule
 @app.route('/login')
 def login():
 	return render_template('login.html')
-
 if __name__ == '__main__':
 	app.run(debug = True)

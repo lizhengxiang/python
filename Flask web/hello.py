@@ -11,6 +11,8 @@ from wtforms.validators import Required
 #from flask.exe.moment import Moment
 from datetime import datetime
 import multiprocessing
+from NameForm import NameForm
+
 #from flaskext.sqlalchemy import SQLAlchemy
 import os
 app = Flask(__name__)
@@ -41,7 +43,16 @@ class User(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
 	username = db.Column(db.String(64), unique = True, index = True)
 	role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
-	
+	@property
+	def password(self):
+		return AttributeError('password is not a readable attribute')
+
+	@password.setter
+	def password(self, password):
+		self.password_hash = generate_password_hash(password)
+	def verify_password(self, password):
+		return check_password_hash(self.password_hash, password)
+
 	def __repr__(self):
 		return '<User %r> % self.username'
 
@@ -59,7 +70,7 @@ app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
 @app.route('/', methods=['GET', 'POST'])
 def index():
 	name = None
-	form = NameFrom()
+	form = NameForm()
 	if form.validate_on_submit():
 		user = User.query.filter_by(username = form.name.data).first()
 		if user is None:
