@@ -20,7 +20,7 @@ class DevelopmentConfig(Config):
 	DEBUG = True
 	#config Flask-Mail
 	MAIL_SEVER = 'smtp.googlemail.com'
-	MAIL_POST = 597
+	MAIL_PORT = 587
 	MAIL_USE_TLS = True
 	MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
 	MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
