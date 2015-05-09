@@ -18,9 +18,12 @@ manager.add_command('db', MigrateCommand)
 def test():
 	"""Run the unit test."""
 	import unittest
-	test = unittest.TestLoader().discover('tests')
-	unittest.TextTestLoader(verbosity = 2).run(tests)
+	tests = unittest.TestLoader().discover('tests')
+	unittest.TextTestRunner(verbosity = 2).run(tests)
 
+print test()
 if __name__ == '___main__':
 	manager.run()
 	
+
+
