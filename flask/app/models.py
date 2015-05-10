@@ -1,6 +1,6 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.login import UserMixin
+from flask.ext.login import UserMixin, login_required
 from . import login_manager
 
 db = SQLAlchemy()
@@ -35,5 +35,10 @@ class User(UserMixin, db.Model):
 	@login_manager.user_loader
 	def load_user(user_id):
 		return User.query.get(int(user_id))
+	#@app.route('/secret')
+	#@login_required
+	#def secret():
+	#	return 'Only authenticated users are allowed!'
+
 	def __repr__(self):
 		return '<User %r> % self.username'
