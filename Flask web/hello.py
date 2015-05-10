@@ -5,7 +5,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 #from flask.ext.sqlalchemy import SQLAlchemy 
 from flask.ext.wtf import Form
 from flask.ext.mail import Mail
-from flask.ext.script import Shell
+from flask.ext.script import Shell, Manager
 from wtforms import StringField, SubmitField
 from wtforms.validators import Required
 #from flask.exe.moment import Moment
@@ -27,9 +27,11 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'da
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 db = SQLAlchemy(app)
 
+manager = Manager(app)
+
 def make_shell_context():
 	return dict(app = app, db = db, User = User, Role = Role)
-#manager.add_command("shell", Shell(make_context=make_shell_context))
+manager.add_command("shell", Shell(make_context=make_shell_context))
 #define Role and User
 class Role(db.Model):
 	__tablename__ = 'roles'
@@ -37,7 +39,7 @@ class Role(db.Model):
 	name = db.Column(db.String(64), unique = True)
 	users = db.relationship('User', backref = 'role')
 	def __repr__(self):
-		return '<Role %r> % self.name'
+		return '<Role %r>' % self.name
 class User(db.Model):
 	__tablename__ = 'users'
 	id = db.Column(db.Integer, primary_key = True)
@@ -54,7 +56,7 @@ class User(db.Model):
 		return check_password_hash(self.password_hash, password)
 
 	def __repr__(self):
-		return '<User %r> % self.username'
+		return '<User %r>' % self.username
 
 class NameFrom(Form):
 	name = StringField('what you name?', validators = [Required()])
@@ -65,6 +67,9 @@ app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
 
+#u = User(username = 'lizhengxaing', role_id = 1)
+#db.session.add(u)
+#db.session.commit()
 #form = NameFrom(Form)
 
 @app.route('/', methods=['GET', 'POST'])
@@ -75,7 +80,9 @@ def index():
 		user = User.query.filter_by(username = form.name.data).first()
 		if user is None:
 			user = User(username = form.name.data)
+			print user
 			db.session.add(user)
+			db.session.commit()
 			session['known'] = False
 		else:
 			session['known'] = True
