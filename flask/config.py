@@ -3,7 +3,7 @@ import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
-	SECREY_KEY = os.environ.get('SECREY_KEY') or 'hard to guess string'
+	SECREY_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
 	#automatic submit database
 	SQLALCHEMY_COMMIT_ON_TEARDOWN = True	
 	#config email 
@@ -26,7 +26,7 @@ class DevelopmentConfig(Config):
 	MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
 	#config database
 	SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
-		'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
+		'sqlite:///' + os.path.join(basedir, 'data.sqlite')
 
 class TestingCofig(Config):
 	TESTING = True

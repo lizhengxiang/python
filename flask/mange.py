@@ -23,9 +23,9 @@ def test():
 
 print test()
 
-#u = User(email = "1065482100@qq.com", username = "lizhengxiang", password = 'cat')
-#db.session.add(u)
-#db.session.commit()
+u = User(email = "1065482100@qq.com", username = "lizhengxiang", password = 'cat')
+db.session.add(u)
+db.session.commit()
 if __name__ == '___main__':
 	manager.run()
 	
