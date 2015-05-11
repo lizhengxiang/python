@@ -21,13 +21,10 @@ def test():
 	tests = unittest.TestLoader().discover('tests')
 	unittest.TextTestRunner(verbosity = 2).run(tests)
 
-#print test()
+print test()
 
-#u = User(email = '1065482660@qq.com',username = 'lizheangxxxxxxxxxxxxxxxx', password = '1065482100@qq.com', role_id = 0)
+#u = User(email = '1065482660.com',username = 'lizhexxxxxxxxxxxxxx', password = '1065482100@qq.com', role_id = 0)
 #db.session.add(u)
 #db.session.commit()
-if __name__ == '___main__':
+if __name__ == '__main__':
 	manager.run()
-	
-
-

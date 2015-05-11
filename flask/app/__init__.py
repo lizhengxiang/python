@@ -25,7 +25,7 @@ def create_app(config_name):
 
 	db.init_app(app)
 	db.app = app
-	db.create_all()
+	#db.create_all()
 	#db = upgrade()
 	login_manager.init_app(app)
 
