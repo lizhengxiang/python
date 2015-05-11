@@ -22,9 +22,11 @@ def create_app(config_name):
 
 	bootstrap.init_app(app)
 	mail.init_app(app)
+
 	db.init_app(app)
 	db.app = app
 	db.create_all()
+	#db = upgrade()
 	login_manager.init_app(app)
 
 	from .main import main as main_blueprint

@@ -13,7 +13,7 @@ def make_shell_context():
 	return dict(app = app, db = db, User = User, Role = Role)
 manager.add_command("shell", Shell(make_context = make_shell_context))
 manager.add_command('db', MigrateCommand)
-
+#db = upgrade()
 @manager.command
 def test():
 	"""Run the unit test."""
@@ -21,11 +21,11 @@ def test():
 	tests = unittest.TestLoader().discover('tests')
 	unittest.TextTestRunner(verbosity = 2).run(tests)
 
-print test()
+#print test()
 
-u = User(email = "1065482100@qq.com", username = "lizhengxiang", password = 'cat')
-db.session.add(u)
-db.session.commit()
+#u = User(email = '1065482660@qq.com',username = 'lizheangxxxxxxxxxxxxxxxx', password = '1065482100@qq.com', role_id = 0)
+#db.session.add(u)
+#db.session.commit()
 if __name__ == '___main__':
 	manager.run()
 	

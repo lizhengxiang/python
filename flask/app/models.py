@@ -21,7 +21,7 @@ class User(UserMixin, db.Model):
 	password_hash = db.Column(db.String(128))
 	role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
 		
-	password_hash = db.Column(db.String(128))
+	#password_hash = db.Column(db.String(128))
 	
 	@property
 	def password(self):

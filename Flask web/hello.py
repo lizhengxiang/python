@@ -6,6 +6,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.wtf import Form
 from flask.ext.mail import Mail
 from flask.ext.script import Shell, Manager
+from flask.ext.migrate import Migrate, MigrateCommand
 from wtforms import StringField, SubmitField
 from wtforms.validators import Required
 #from flask.exe.moment import Moment
@@ -28,6 +29,10 @@ app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 db = SQLAlchemy(app)
 
 manager = Manager(app)
+migrate = Migrate(app, db)
+manager.add_command('db', MigrateCommand)
+#init(db)
+#db = upgrade()
 
 def make_shell_context():
 	return dict(app = app, db = db, User = User, Role = Role)
