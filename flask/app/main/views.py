@@ -10,7 +10,7 @@ from ..models import User
 def index():
 	form = NameForm()
 	if form.validate_on_submit():
-		user = User.query.filter_by(username = form.name.data).first()
+		user = User.query.filter_by(username = form.email.data).first()
 		if user is None:
 			user = User(username = form.name.data)
 			print user
