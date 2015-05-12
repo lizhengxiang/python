@@ -4,6 +4,6 @@ from wtforms.validators import Required, Length, Email
 
 class LoginForm(Form):
 	email = StringField('Email', validators = [Required(), Length(1, 64), Email()])
-	password = PasswordField('Email', validators = [Required()])
+	password = PasswordField('Password', validators = [Required()])
 	remember_me = BooleanField('keep me logged in')
 	submit = SubmitField('Log In')
