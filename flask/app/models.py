@@ -1,9 +1,6 @@
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.login import UserMixin, login_required
-from . import login_manager
-
-db = SQLAlchemy()
+from flask.ext.login import UserMixin
+from . import db
 
 class Role(db.Model):
 	__tablename__ = 'roles'
@@ -11,7 +8,7 @@ class Role(db.Model):
 	name = db.Column(db.String(64), unique = True)
 	users = db.relationship('User', backref = 'role')
 	def __repr__(self):
-		return '<Role %r> % self.name'
+		return '<Role %r>' % self.name
 	
 class User(UserMixin, db.Model):
 	__tablename__ = 'users'
@@ -32,13 +29,13 @@ class User(UserMixin, db.Model):
 		self.password_hash = generate_password_hash(password)
 	def verify_password(self, password):
 		return check_password_hash(self.password_hash, password)
-	@login_manager.user_loader
-	def load_user(user_id):
-		return User.query.get(int(user_id))
+	#@login_manager.user_loader
+	#def load_user(user_id):
+	#	return User.query.get(int(user_id))
 	#@app.route('/secret')
 	#@login_required
 	#def secret():
 	#	return 'Only authenticated users are allowed!'
 
 	def __repr__(self):
-		return '<User %r> % self.username'
+		return '<User %r>' % self.username

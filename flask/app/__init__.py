@@ -1,4 +1,5 @@
 from flask import Flask, render_template		
+import os
 from flask.ext.bootstrap import Bootstrap		
 from flask.ext.mail import Mail		
 from flask.ext.moment import Moment
@@ -6,9 +7,17 @@ from flask.ext.login import LoginManager
 from flask.ext.sqlalchemy import SQLAlchemy
 from config import config
 
+#app = Flask(__name__)
+
+#basedir = os.path.abspath(os.path.dirname(__file__))
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+#app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
+#db = SQLAlchemy()
+
+
 bootstrap = Bootstrap()		
 mail = Mail()
-db = SQLAlchemy()
+db = SQLAlchemy( )
 moment = Moment()
 
 login_manager = LoginManager()
@@ -17,9 +26,15 @@ login_manager.login_view = 'auth.login'
 
 def create_app(config_name):
 	app = Flask(__name__)
-	#app.config.from_object(config[config_name])
+	app.config.from_object(config[config_name])
 	app.config.from_object(config[config_name])
 	config[config_name].init_app(app)
+	#basedir = os.path.abspath(os.path.dirname(__file__))
+	#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+	#app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
+	#db = SQLAlchemy()
+	db = SQLAlchemy(app)
+
 
 	bootstrap.init_app(app)
 	mail.init_app(app)
