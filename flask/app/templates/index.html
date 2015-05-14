@@ -15,9 +15,3 @@
 {{wtf.quick_form(form)}}
 {% endblock %}
 
-hello, 
-{% if current_user.is_authenticated() %}
-{{current_user.username}}
-{%else%}
-	Strange
-{%endif%}
