@@ -1,4 +1,5 @@
 from flask.ext.wtf import Form
+#flask.ext.login.current_user
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import Required, Length, Email
 

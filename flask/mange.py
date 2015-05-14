@@ -4,6 +4,7 @@ from app import db, create_app
 from app.models import User, Role
 from flask.ext.script import Manager, Shell
 from flask.ext.migrate import Migrate, MigrateCommand
+from flask.ext.login import current_user
 
 app = create_app(os.getenv('FLASK_CONFIG')or 'default')
 manager = Manager(app)
