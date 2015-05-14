@@ -1,11 +1,11 @@
 from flask import Flask, render_template		
-import os
 from flask.ext.bootstrap import Bootstrap		
 from flask.ext.mail import Mail		
 from flask.ext.moment import Moment
 #from flask.ext.login import LoginManager
 from flask.ext.sqlalchemy import SQLAlchemy
 from config import config
+#from flask.ext.login import login_required
 
 #app = Flask(__name__)
 
@@ -33,7 +33,7 @@ def create_app(config_name):
 	#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'data.sqlite')
 	#app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 	#db = SQLAlchemy()
-	db = SQLAlchemy(app)
+	#db = SQLAlchemy(app)
 
 
 	bootstrap.init_app(app)
@@ -45,6 +45,12 @@ def create_app(config_name):
 	#db.create_all()
 	#db = upgrade()
 	#login_manager.init_app(app)
+	#@app.route('/secret')
+	#@login_required
+	#def secret():
+	#	return 'Only authenticated users are allowed!'
+	
+
 
 	from .main import main as main_blueprint
 	app.register_blueprint(main_blueprint)
