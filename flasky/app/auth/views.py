@@ -5,6 +5,7 @@ from ..models import User
 from .. import db
 from ..email import send_email
 from .forms import LoginForm, RegistrationForm
+from flask.ext.login import current_user
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
@@ -39,4 +40,26 @@ def register():
         flash('A confirmation email has been sent to you by email.')
         return redirect(url_for('auth.login'))
     return render_template('auth/register.html', form=form)
+
+@auth.route('/confirm/<token>')
+@login_required
+def confirm(token):
+	if current_user.confirmed:
+		return redirect(url_for('main.index'))
+	if current_user.confirm(token):
+		flash('You have confirmed you account. Thanks!')
+	else
+		flash('The confirmed link is invalid or has expired.')
+	return redirect(url_for('mian.index'))
+
+@auth.before_app_request
+
+
+
+
+
+
+
+
+
 
