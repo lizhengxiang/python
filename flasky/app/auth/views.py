@@ -65,6 +65,16 @@ def unconfirmed():
 		return redirect(url_for('main.index'))
 	return render_template('auth/unconfirmed.html')
 
+@auth.route('/confirm')
+@login_requried
+def resend_confirmation():
+	token = user.generate_confirmation_token()
+	send_email(user.email, 'Confirm Your Account',
+		'auth/email/confirm', user=user, token=token)
+	flash('A confirmation email has been sent to you by email.')
+	return redirect(url_for('main.index'))
+
+
 
 
 
