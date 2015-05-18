@@ -50,7 +50,8 @@ def confirm(token):
 		flash('You have confirmed you account. Thanks!')
 	else:
 		flash('The confirmed link is invalid or has expired.')
-	return redirect(url_for('mian.index'))
+	#return redirect(url_for('main.index'))
+	return render_template('index.html')
 
 #@auth.before_app_request
 #def before_request():
