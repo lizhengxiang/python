@@ -5,7 +5,7 @@ from flask.ext.login import UserMixin, AnonymousUserMixin
 from . import db, login_manager
 
 
-class permission:
+class Permission:
 	FOLLOW = 0X01
 	COMMENT = 0X02
 	WRITE_ARTICLES = 0X04
@@ -23,13 +23,13 @@ class Role(db.Model):
 	@staticmethod
 	def insert_roles():
 		roles = {
-			'User':(permission.FOLLOW |
-				permission.COMMENT |
-				permission.WRITE_ARTICLES, True),
+			'User':(Permission.FOLLOW |
+				Permission.COMMENT |
+				Permission.WRITE_ARTICLES, True),
 			'Moderator':(permission.FOLLOW |
-				permission.COMMENT |
-				permission.WRITE_ARTICLES |
-				permission.MODERATE_COMMENTS, False),
+				Permission.COMMENT |
+				Permission.WRITE_ARTICLES |
+				Permission.MODERATE_COMMENTS, False),
 			'Administration':(0xff, False)
 		}
 		for r in roles:
