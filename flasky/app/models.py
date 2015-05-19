@@ -97,14 +97,14 @@ class User(UserMixin, db.Model):
 	def __repr__(self):
 		return '<User %r>' % self.username
 
-class AnoymousUser(AnonymousUserMixin):
+class AnonymousUser(AnonymousUserMixin):
 	def can(self, permissions):
 		return False
 	
 	def is_administrator(self):
 		return False
 
-long_manager.anonymous_user = AnoymousUser
+login_manager.anonymous_user = AnonymousUser
 
 @login_manager.user_loader
 def load_user(user_id):
