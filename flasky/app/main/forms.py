@@ -3,7 +3,7 @@ from wtforms import StringField, SubmitField, TextAreaField, BooleanField, Selec
 from wtforms.validators import Required, Length, Email, Regexp
 #from wtforms import ValidationError
 #from flask.ext.pagedown.fields import PageDownField
-#from ..models import Role, User
+from ..models import Role, User
 
 
 class NameForm(Form):
@@ -30,7 +30,7 @@ class EditProfileAdminForm(Form):
 	def __init__(self, user, *args, **kwargs):
 		super(EditProfileAdminForm, self).__init__(*args, **kwargs)
 		self.role.choices = [(role.id, role.name)
-								for role in Role.order_by(Role.name).all()]
+								for role in Role.query.order_by(Role.name).all()]
 		self.user = user
 	def validate_email(self, field):
 		if field.data != self.user.email and \
