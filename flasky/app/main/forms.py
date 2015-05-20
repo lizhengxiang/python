@@ -1,5 +1,5 @@
 from flask.ext.wtf import Form
-from wtforms import StringField, SubmitField, TextAreaField, BooleanFiled
+from wtforms import StringField, SubmitField, TextAreaField, BooleanField, SelectField
 from wtforms.validators import Required, Length, Email, Regexp
 #from wtforms import ValidationError
 #from flask.ext.pagedown.fields import PageDownField
@@ -17,21 +17,21 @@ class EditprofileForm(Form):
 	submit = SubmitField('Submit')
 
 class EditprofileAdminFrom(Form):
-	email = StringField('Email', validators = [Required(), Length(0, 64), Email()]
+	email = StringField('Email', validators = [Required(), Length(0, 64), Email()])
 	username = StringField('Username', validators = [Required(), Length(0, 64), Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0, 
 			'Username must have only,number, dots or unedrscores')])
-	confirmed = BooleanFiled('Confirmed')
-	role = selectField('Role', coerce = int)
+	confirmed = BooleanField('Confirmed')
+	role = SelectField('Role', coerce = int)
 	name = StringField('Role Name', validators = [Length(0, 64)])	
 	location = StringField('Location', validators = [Length(0, 64)])
 	about_me = TextAreaField('About me')
 	submit = SubmitField('Submit')
 	
 	def __init__(self, user, *args, **kwargs):
-		super(EditprofileAdminFrom, self).__init__(*args, **kwargs):
-			self.role.choices = [(role.id, role.name)
+		super(EditprofileAdminFrom, self).__init__(*args, **kwargs)
+		self.role.choices = [(role.id, role.name)
 								for role in Role.order_by(Role.name).all()]
-			self.user = user
+		self.user = user
 	def validate_email(self, field):
 		if field.data != self.user.email and \
 				User.query.filter_by(email = field.data).first():
