@@ -1,5 +1,5 @@
 from flask.ext.wtf import Form
-from wtforms import StringField, SubmitField
+from wtforms import StringField, SubmitField, TextAreaField
 from wtforms.validators import Required, Length, Email, Regexp
 #from wtforms import ValidationError
 #from flask.ext.pagedown.fields import PageDownField
@@ -10,9 +10,9 @@ class NameForm(Form):
     name = StringField('What is your name?', validators=[Required()])
     submit = SubmitField('Submit')
 
-class EditprofileForm(From):
+class EditprofileForm(Form):
 	name = StringField('Real name', validators = [Length(0, 64)])
 	location = StringField('Location', validators=[Length(0, 64)])
-	about_me = TextAreaFiled('About me')
-	submit = SubmitFiled('Submet')
+	about_me = TextAreaField('About me')
+	submit = SubmitField('Submet')
 
