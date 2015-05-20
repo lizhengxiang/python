@@ -10,13 +10,13 @@ class NameForm(Form):
     name = StringField('What is your name?', validators=[Required()])
     submit = SubmitField('Submit')
 
-class EditprofileForm(Form):
+class EditProfileForm(Form):
 	name = StringField('Real name', validators = [Length(0, 64)])
 	location = StringField('Location', validators=[Length(0, 64)])
 	about_me = TextAreaField('About me')
 	submit = SubmitField('Submit')
 
-class EditprofileAdminFrom(Form):
+class EditProfileAdminForm(Form):
 	email = StringField('Email', validators = [Required(), Length(0, 64), Email()])
 	username = StringField('Username', validators = [Required(), Length(0, 64), Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0, 
 			'Username must have only,number, dots or unedrscores')])
@@ -28,7 +28,7 @@ class EditprofileAdminFrom(Form):
 	submit = SubmitField('Submit')
 	
 	def __init__(self, user, *args, **kwargs):
-		super(EditprofileAdminFrom, self).__init__(*args, **kwargs)
+		super(EditProfileAdminForm, self).__init__(*args, **kwargs)
 		self.role.choices = [(role.id, role.name)
 								for role in Role.order_by(Role.name).all()]
 		self.user = user
@@ -41,3 +41,5 @@ class EditprofileAdminFrom(Form):
 		if field.data != self.user.username and \
 				User.query.filter_by(username = field.data).first():
 			raise ValidationError('Username already register.')
+
+#form = EditprofileAdminFrom(Form)
