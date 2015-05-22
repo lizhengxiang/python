@@ -102,7 +102,7 @@ class User(UserMixin, db.Model):
 			(self.role.permissions & permissions) == permissions
 
 	def is_administrator(self):
-		return not self.can(Permission.ADMINISTER)
+		return  self.can(Permission.ADMINISTER)
 	
 	def __repr__(self):
 		return '<User %r>' % self.username
