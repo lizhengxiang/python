@@ -59,7 +59,7 @@ class User(UserMixin, db.Model):
 	about_me = db.Column(db.Text())
 	number_since = db.Column(db.DateTime(), default = datetime.utcnow)
 	last_seen = db.Column(db.DateTime(), default = datetime.utcnow)
-	
+	posts = db.relationship('Post', backref='author', lazy='dynamic')
 	def ping(self):
 		self.last_seen = datetime.utcnow()
 		db.session.add(self)
